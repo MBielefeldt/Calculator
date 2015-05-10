@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     var userIsInTheMiddleOfTypingNumber = false
     
+    var calculatorBrain = CalculatorBrain()
+    
     @IBAction func digitButton(sender: UIButton)
     {
         let digit = sender.currentTitle!
@@ -29,40 +31,31 @@ class ViewController: UIViewController {
         }
     }
     
-    var operandStack = Array<Double>()
-    
     @IBAction func enterButton()
     {
         userIsInTheMiddleOfTypingNumber = false
-        operandStack.append(displayValue)
-        println("operandStack = \(operandStack)")
+        if let result = calculatorBrain.pushOperand(displayValue)
+        {
+            displayValue = result
+        }
+        else
+        {
+            displayValue = 0
+        }
     }
     
     @IBAction func clearButton()
     {
-        displayValue = 0;
         userIsInTheMiddleOfTypingNumber = false
-        operandStack.removeAll()
-        println("operandStack = \(operandStack)")
+        if let result = calculatorBrain.reset()
+        {
+            displayValue = result
+        }
+        else
+        {
+            displayValue = 0;
+        }
     }
-    
-    private func performOperation(operationFunc: (Double, Double) -> Double)
-    {
-        displayValue = operationFunc(operandStack.removeLast(), operandStack.removeLast())
-        enterButton()
-    }
-    
-    private func performOperation(operationFunc: Double -> Double)
-    {
-        let operand = operandStack.removeLast()
-        displayValue = operationFunc(operand)
-        enterButton()
-    }
-    
-//    func multiply(operand1: Double, operand2: Double) -> Double
-//    {
-//        return operand2 * operand1
-//    }
     
     @IBAction func operatorButton(sender: UIButton)
     {
@@ -71,23 +64,16 @@ class ViewController: UIViewController {
             enterButton()
         }
         
-        let oper = sender.currentTitle!
-        
-        switch oper {
-//            case "×" : performOperation(multiply)
-//            case "×" : performOperation({ (operand1: Double, operand2: Double) -> Double in
-//                                            return operand2 * operand1
-//                                        })
-//            case "×" : performOperation({ (operand1, operand2) in return operand2 * operand1 })
-//            case "×" : performOperation({ (operand1, operand2) in operand2 * operand1 })
-//            case "×" : performOperation({ $1 * $0 })
-//            case "×" : performOperation() { $1 * $0 }
-            case "×" : performOperation { $1 * $0 }
-            case "÷" : performOperation { $1 / $0 }
-            case "+" : performOperation { $1 + $0 }
-            case "−" : performOperation { $1 - $0 }
-            case "√" : performOperation { sqrt($0) }
-            default  : break
+        if let operation = sender.currentTitle
+        {
+            if let result = calculatorBrain.performOperation(operation)
+            {
+                displayValue = result
+            }
+            else
+            {
+                displayValue = 0
+            }
         }
     }
     
