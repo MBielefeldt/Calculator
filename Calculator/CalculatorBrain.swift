@@ -37,11 +37,16 @@ class CalculatorBrain
     
     init()
     {
-        knownOps["×"] = Op.BinaryOperation("×", *)
-        knownOps["÷"] = Op.BinaryOperation("÷") { $1 / $0 }
-        knownOps["+"] = Op.BinaryOperation("+", +)
-        knownOps["−"] = Op.BinaryOperation("−") { $1 - $0 }
-        knownOps["√"] = Op.UnaryOperation ("√", sqrt)
+        func learnOp(op: Op)
+        {
+            knownOps[op.description] = op;
+        }
+        
+        learnOp(Op.BinaryOperation("×", *))
+        learnOp(Op.BinaryOperation("÷") { $1 / $0 })
+        learnOp(Op.BinaryOperation("+", +))
+        learnOp(Op.BinaryOperation("−") { $1 - $0 })
+        learnOp(Op.UnaryOperation ("√", sqrt))
     }
     
     func reset() -> Double?
