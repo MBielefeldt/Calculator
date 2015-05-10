@@ -48,9 +48,7 @@ class ViewController: UIViewController {
     
     private func performOperation(operationFunc: (Double, Double) -> Double)
     {
-        let operand2 = operandStack.removeLast()
-        let operand1 = operandStack.removeLast()
-        displayValue = operationFunc(operand1, operand2)
+        displayValue = operationFunc(operandStack.removeLast(), operandStack.removeLast())
         enterButton()
     }
     
@@ -63,7 +61,7 @@ class ViewController: UIViewController {
     
 //    func multiply(operand1: Double, operand2: Double) -> Double
 //    {
-//        return operand1 * operand2
+//        return operand2 * operand1
 //    }
     
     @IBAction func operatorButton(sender: UIButton)
@@ -78,16 +76,16 @@ class ViewController: UIViewController {
         switch oper {
 //            case "×" : performOperation(multiply)
 //            case "×" : performOperation({ (operand1: Double, operand2: Double) -> Double in
-//                                            return operand1 * operand2
+//                                            return operand2 * operand1
 //                                        })
-//            case "×" : performOperation({ (operand1, operand2) in return operand1 * operand2 })
-//            case "×" : performOperation({ (operand1, operand2) in operand1 * operand2 })
-//            case "×" : performOperation({ $0 * $1 })
-//            case "×" : performOperation() { $0 * $1 }
-            case "×" : performOperation { $0 * $1 }
-            case "÷" : performOperation { $0 / $1 }
-            case "+" : performOperation { $0 + $1 }
-            case "−" : performOperation { $0 - $1 }
+//            case "×" : performOperation({ (operand1, operand2) in return operand2 * operand1 })
+//            case "×" : performOperation({ (operand1, operand2) in operand2 * operand1 })
+//            case "×" : performOperation({ $1 * $0 })
+//            case "×" : performOperation() { $1 * $0 }
+            case "×" : performOperation { $1 * $0 }
+            case "÷" : performOperation { $1 / $0 }
+            case "+" : performOperation { $1 + $0 }
+            case "−" : performOperation { $1 - $0 }
             case "√" : performOperation { sqrt($0) }
             default  : break
         }
