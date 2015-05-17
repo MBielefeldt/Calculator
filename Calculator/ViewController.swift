@@ -57,6 +57,33 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func saveButton()
+    {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        defaults.setObject(calculatorBrain.program, forKey: "calculator.program")
+        defaults.synchronize()
+    }
+    
+    @IBAction func restoreButton()
+    {
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        if let program: AnyObject = defaults.objectForKey("calculator.program")
+        {
+            calculatorBrain.program = program
+        }
+        
+        if let result = calculatorBrain.evaluate()
+        {
+            displayValue = result
+        }
+        else
+        {
+            displayValue = 0
+        }
+    }
+    
     @IBAction func operatorButton(sender: UIButton)
     {
         if userIsInTheMiddleOfTypingNumber
